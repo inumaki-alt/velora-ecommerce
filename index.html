@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VELORA — considered essentials for everyday living.">
+  <title>VELORA — Everyday, Elevated</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="announcement">COMPLIMENTARY SHIPPING ON ORDERS OVER ₱2,500</div>
+  <header class="site-header">
+    <a class="logo" href="#">VELORA<span>.</span></a>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <nav class="nav-links"><a href="#shop">Shop</a><a href="#story">Our story</a><a href="#newsletter">Journal</a></nav>
+    <div class="header-actions"><button id="search-toggle" aria-label="Search">⌕</button><button id="cart-toggle" aria-label="Open cart">Bag <span id="cart-count">0</span></button></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">THE EVERYDAY EDIT — 01</p>
+        <h1>Make room for<br><em>the meaningful.</em></h1>
+        <p class="hero-description">Thoughtful pieces for slower mornings, lighter days, and a life well considered.</p>
+        <a class="button button-dark" href="#shop">EXPLORE THE COLLECTION <span>↗</span></a>
+      </div>
+      <div class="hero-image" role="img" aria-label="Minimal neutral lifestyle interior">
+        <div class="hero-note">LESS, BUT<br>BETTER.</div>
+      </div>
+      <div class="hero-index">01 / 03</div>
+    </section>
+
+    <section class="intro" id="story">
+      <p class="eyebrow">A MORE CONSIDERED WAY TO LIVE</p>
+      <p class="intro-text">We believe the things we keep should make everyday life feel a little more <em>beautiful.</em></p>
+    </section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading"><div><p class="eyebrow">CURATED FOR YOUR EVERYDAY</p><h2>Find your new favorite.</h2></div><p class="muted">Objects with purpose. Details with intention.</p></div>
+      <div class="toolbar">
+        <div class="filters" id="filters">
+          <button class="filter active" data-category="All">All pieces</button>
+          <button class="filter" data-category="Home">Home</button>
+          <button class="filter" data-category="Accessories">Accessories</button>
+          <button class="filter" data-category="Lifestyle">Lifestyle</button>
+        </div>
+        <div class="tools"><input id="search-input" type="search" placeholder="Search pieces..." aria-label="Search products"><select id="sort-select" aria-label="Sort products"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="az">Name: A to Z</option></select></div>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <section class="quote-band"><p class="eyebrow">THE VELORA PHILOSOPHY</p><h2>“Choose well.<br><em>Keep what matters.</em>”</h2></section>
+
+    <section class="newsletter" id="newsletter"><div><p class="eyebrow">A NOTE FROM VELORA</p><h2>Good things, occasionally.</h2><p>New collections, thoughtful finds, and little notes for everyday living.</p></div><form id="newsletter-form"><input type="email" id="newsletter-email" placeholder="Your email address" required><button class="button button-dark">SUBSCRIBE ↗</button></form></section>
+  </main>
+
+  <footer><a class="logo" href="#">VELORA<span>.</span></a><p>Everyday, elevated.</p><small>© 2026 VELORA. A student e-commerce project.</small></footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping bag">
+    <div class="drawer-head"><h2>Your bag <span id="drawer-count">(0)</span></h2><button id="close-cart" aria-label="Close cart">×</button></div>
+    <div id="cart-items" class="cart-items"></div>
+    <div class="cart-bottom"><div class="subtotal"><span>Subtotal</span><strong id="cart-subtotal">₱0</strong></div><p>Shipping and taxes calculated at checkout.</p><button class="button button-dark full" id="checkout-button">CONTINUE TO CHECKOUT ↗</button></div>
+  </aside>
+
+  <dialog id="checkout-dialog"><button class="dialog-close" id="close-checkout">×</button><p class="eyebrow">ALMOST YOURS</p><h2>Checkout</h2><form id="checkout-form"><label>Full name<input required name="name" placeholder="Your name"></label><label>Email address<input required type="email" name="email" placeholder="you@example.com"></label><label>Delivery address<textarea required name="address" placeholder="Complete address"></textarea></label><div class="subtotal"><span>Order total</span><strong id="checkout-total">₱0</strong></div><button class="button button-dark full">PLACE DEMO ORDER</button></form><p class="fine-print">Demo checkout only — no payment will be collected.</p></dialog>
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
