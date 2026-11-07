@@ -45,3 +45,142 @@ document.querySelector("#newsletter-form").addEventListener("submit",e=>{e.preve
 document.querySelector(".menu-toggle").addEventListener("click",()=>document.querySelector(".nav-links").classList.toggle("show"));
 document.querySelector("#search-toggle").addEventListener("click",()=>{document.querySelector("#shop").scrollIntoView();document.querySelector("#search-input").focus()});
 renderProducts();renderCart();
+// VELORA PRODUCT DETAIL PAGE
+let pdpQuantity = 1;
+let currentProduct = null;
+
+const detailPage = document.querySelector("#product-detail");
+
+function showProduct(id) {
+  currentProduct = products.find(p => p.id === id);
+  if (!currentProduct) return;
+
+  pdpQuantity = 1;
+
+  document.querySelectorAll("main > section").forEach(section => {
+    section.hidden = true;
+  });
+
+  detailPage.hidden = false;
+
+  const p = currentProduct;
+  const related = products.filter(item => item.id !== p.id).slice(0, 3);
+
+  detailPage.innerHTML = `
+    <button class="pdp-back" data-back>← BACK TO SHOP</button>
+
+    <div class="pdp-layout">
+      <img class="pdp-image" src="${p.image}" alt="${p.name}">
+
+      <div class="pdp-info">
+        <p class="pdp-category">${p.category}</p>
+        <h1 class="pdp-title">${p.name}</h1>
+        <p class="pdp-price">${peso(p.price)}</p>
+        <p class="pdp-description">${p.desc}. Thoughtfully selected for everyday living.</p>
+
+        <div class="pdp-quantity">
+          <span>Quantity</span>
+          <button data-qty-change="-1">−</button>
+          <span id="pdp-qty">1</span>
+          <button data-qty-change="1">+</button>
+        </div>
+
+        <div class="pdp-actions">
+          <button class="pdp-add" data-pdp-add>ADD TO BAG</button>
+          <button class="pdp-favorite" data-pdp-fav>
+            ${favorites.includes(p.id) ? "♥ FAVORITED" : "♡ ADD TO FAVORITES"}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdp-related">
+      <h2>You May Also Like</h2>
+      <div class="pdp-related-grid">
+        ${related.map(item => `
+          <div class="pdp-related-card" data-related="${item.id}">
+            <img src="${item.image}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <p>${peso(item.price)}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function backToShop() {
+  detailPage.hidden = true;
+  document.querySelectorAll("main > section").forEach(section => {
+    if (section.id !== "product-detail") {
+  section.hidden = false;
+    }
+  });
+  document.querySelector("#shop").scrollIntoView();
+}
+
+grid.addEventListener("click", e => {
+  if (e.target.closest("button")) return;
+
+  const card = e.target.closest(".product-card");
+  if (!card) return;
+
+  const name = card.querySelector("h3").textContent;
+  const product = products.find(p => p.name === name);
+
+  if (product) showProduct(product.id);
+});
+
+detailPage.addEventListener("click", e => {
+  if (e.target.closest("[data-back]")) {
+    backToShop();
+  }
+
+  const quantityButton = e.target.closest("[data-qty-change]");
+  if (quantityButton) {
+    pdpQuantity = Math.max(
+      1,
+      pdpQuantity + Number(quantityButton.dataset.qtyChange)
+    );
+    document.querySelector("#pdp-qty").textContent = pdpQuantity;
+  }
+
+  if (e.target.closest("[data-pdp-add]")) {
+    const found = cart.find(item => item.id === currentProduct.id);
+
+    if (found) {
+      found.qty += pdpQuantity;
+    } else {
+      cart.push({ ...currentProduct, qty: pdpQuantity });
+    }
+
+    saveCart();
+    toast("Added to your bag");
+  }
+
+  if (e.target.closest("[data-pdp-fav]")) {
+    const id = currentProduct.id;
+
+    favorites = favorites.includes(id)
+      ? favorites.filter(x => x !== id)
+      : [...favorites, id];
+
+    localStorage.setItem("velora-favorites", JSON.stringify(favorites));
+    document.querySelector("#pdp-fav");
+    renderProducts();
+
+    e.target.closest("[data-pdp-fav]").textContent =
+      favorites.includes(id) ? "♥ FAVORITED" : "♡ ADD TO FAVORITES";
+
+    toast(favorites.includes(id)
+      ? "Added to favorites"
+      : "Removed from favorites");
+  }
+
+  const relatedButton = e.target.closest("[data-related]");
+  if (relatedButton) {
+    showProduct(Number(relatedButton.dataset.related));
+  }
+});
