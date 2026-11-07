@@ -108,7 +108,7 @@ function showProduct(id) {
     </div>
   `;
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  detailPage.scrollIntoView({ behavior: "instant", block: "start" });
 }
 
 function backToShop() {
