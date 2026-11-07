@@ -127,10 +127,12 @@ grid.addEventListener("click", e => {
   const card = e.target.closest(".product-card");
   if (!card) return;
 
-  const name = card.querySelector("h3").textContent;
+  const name = card.querySelector("h3").textContent.trim();
   const product = products.find(p => p.name === name);
 
-  if (product) showProduct(product.id);
+  if (product) {
+    showProduct(product.id);
+  }
 });
 
 detailPage.addEventListener("click", e => {
